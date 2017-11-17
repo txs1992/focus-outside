@@ -1,0 +1,25 @@
+{
+  "name": "focus-outside",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xusheng.tao <xusheng.tao@ele.me>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.debounce": "^4.0.8"
+  },
+  "devDependencies": {
+    "rollup": "^0.51.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1969290646/focus-outside.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1969290646/focus-outside/issues"
+  },
+  "homepage": "https://github.com/1969290646/focus-outside#readme",
+  "description": ""
+}
