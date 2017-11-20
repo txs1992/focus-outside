@@ -3,7 +3,7 @@
 ## 使用
 
 ```javascript
-import { bind, unbind } from 'focus-outside'
+import { bind } from 'focus-outside'
 const elm = document.querySelector('#dorpdown-button')
 bind(elm, callback)
 ```
