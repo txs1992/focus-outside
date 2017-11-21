@@ -27,7 +27,6 @@ function setFocusable (el) {
 
 function focusinHandler (e) {
   if (mountElement.contains(e.target)) focusDebounce.cancel()
-  if (!mountElement.contains(e.target)) console.log(e.target)
 }
 
 function focusoutHandler (e) {
