@@ -4,8 +4,9 @@ import eslint from 'rollup-plugin-eslint'
 import resolve from 'rollup-plugin-node-resolve'
 
 export default {
+  name: 'FocusOutside',
   entry: 'index.js',
-  format: 'cjs',
+  format: 'umd',
   dest: 'lib/index.js',
   plugins: [
     eslint({
