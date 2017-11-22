@@ -1,8 +1,3 @@
-import debounce from 'lodash-es/debounce'
-
-let callback
-let mountElement
-
 function isFunction (callback) {
   const isFn = typeof callback === 'function'
   if (!isFn) error('function', callback)
@@ -19,38 +14,64 @@ function error (expect, got) {
   console.error(`FocusOutside: expects a ${expect} value, got ${got}`)
 }
 
-function setFocusable (el) {
-  if (!isDOMObject(el)) return
-  el.setAttribute('tabindex', -1)
-  el.style.outline = 'none'
-}
-
-function focusinHandler (e) {
-  if (mountElement.contains(e.target)) focusDebounce.cancel()
-}
-
-function focusoutHandler (e) {
-  callback(e)
-}
-
-const focusDebounce = debounce(focusoutHandler, 0)
-
 function isFocusable (el) {
   if (isDOMObject(el)) return typeof el.getAttribute('tabindex') === 'string'
 }
 
-export function unbind (el) {
-  el.removeEventListener('focusin', focusinHandler, false)
-  el.removeEventListener('focusout', focusDebounce, false)
-}
+export default (function () {
+  const elMap = new Map()
+  let isHideOutline = false
 
-export function bind (el, fn) {
-  if (!isDOMObject(el)) return
-  if (!isFunction(fn)) return
-  if (!isFocusable(el)) setFocusable(el)
-  callback = fn
-  mountElement = el
-  unbind(el)
-  el.addEventListener('focusin', focusinHandler, false)
-  el.addEventListener('focusout', focusDebounce, false)
-}
+  function setFocusable (el) {
+    if (!isDOMObject(el)) return
+    el.setAttribute('tabindex', -1)
+    if (isHideOutline) el.style.outline = 'none'
+  }
+
+  function focusinHandler ({ currentTarget }) {
+    const option = elMap.get(currentTarget)
+    clearTimeout(option.timerId)
+  }
+
+  function focusoutHandler ({ currentTarget }) {
+    const option = elMap.get(currentTarget)
+    option.timerId = setTimeout(option.callback, 0)
+  }
+
+  function bind (el, callback) {
+    if (!isDOMObject(el)) return
+    if (!isFunction(callback)) return
+    elMap.set(el, {
+      callback,
+      oldTabIndex: el.getAttribute('tabindex'),
+      oldOutline: el.style.outline
+    })
+    if (!isFocusable(el)) setFocusable(el)
+    el.addEventListener('focusin', focusinHandler)
+    el.addEventListener('focusout', focusoutHandler)
+  }
+
+  function unbind (el) {
+    const { oldOutline, oldTabIndex } = elMap.get(el)
+    if (oldOutline) el.style.outline = oldOutline
+    if (oldTabIndex) el.setAttribute('tabindex', oldTabIndex)
+    elMap.delete(el)
+    el.removeEventListener('focusin', focusinHandler)
+    el.removeEventListener('focusout', focusoutHandler)
+  }
+
+  function setIsHideOutline (bool) {
+    isHideOutline = bool
+  }
+
+  function getIsHideOutline () {
+    return isHideOutline
+  }
+
+  return {
+    bind,
+    unbind,
+    setIsHideOutline,
+    getIsHideOutline
+  }
+})()
