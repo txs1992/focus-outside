@@ -1,3 +1,5 @@
+import Map from './map-shim.js'
+
 function isFunction (callback) {
   const isFn = typeof callback === 'function'
   if (!isFn) error('function', callback)
