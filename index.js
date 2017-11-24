@@ -1,79 +1,48 @@
 import Map from './map-shim.js'
 
-function isFunction (callback) {
-  const isFn = typeof callback === 'function'
-  if (!isFn) error('function', callback)
-  return isFn
+const elMap = new Map()
+
+function isNotFocusable (el) {
+  return isNaN(parseInt(el.getAttribute('tabindex')))
 }
 
-function isDOMObject (el) {
-  const isDom = el instanceof HTMLElement
-  if (!isDom) error('HTMLElement', el)
-  return isDom
+function setFocusable (el) {
+  el.setAttribute('tabindex', -1)
 }
 
-function error (expect, got) {
-  console.error(`FocusOutside: expects a ${expect} value, got ${got}`)
+function focusinHandler ({ currentTarget }) {
+  const option = elMap.get(currentTarget)
+  clearTimeout(option.timerId)
 }
 
-function isFocusable (el) {
-  if (isDOMObject(el)) return typeof el.getAttribute('tabindex') === 'string'
+function focusoutHandler ({ currentTarget }) {
+  const option = elMap.get(currentTarget)
+  option.timerId = setTimeout(option.callback, 0)
 }
 
-export default (function () {
-  const elMap = new Map()
-  let isHideOutline = false
+function bind (el, callback) {
+  elMap.set(el, {
+    callback,
+    oldTabIndex: el.getAttribute('tabindex')
+  })
+  if (isNotFocusable(el)) setFocusable(el)
+  el.addEventListener('focusin', focusinHandler)
+  el.addEventListener('focusout', focusoutHandler)
+}
 
-  function setFocusable (el) {
-    if (!isDOMObject(el)) return
-    el.setAttribute('tabindex', -1)
-    if (isHideOutline) el.style.outline = 'none'
+function unbind (el) {
+  const { oldTabIndex } = elMap.get(el)
+  if (oldTabIndex) {
+    el.setAttribute('tabindex', oldTabIndex)
+  } else {
+    el.removeAttribute('tabindex')
   }
+  elMap.delete(el)
+  el.removeEventListener('focusin', focusinHandler)
+  el.removeEventListener('focusout', focusoutHandler)
+}
 
-  function focusinHandler ({ currentTarget }) {
-    const option = elMap.get(currentTarget)
-    clearTimeout(option.timerId)
-  }
-
-  function focusoutHandler ({ currentTarget }) {
-    const option = elMap.get(currentTarget)
-    option.timerId = setTimeout(option.callback, 0)
-  }
-
-  function bind (el, callback) {
-    if (!isDOMObject(el)) return
-    if (!isFunction(callback)) return
-    elMap.set(el, {
-      callback,
-      oldTabIndex: el.getAttribute('tabindex'),
-      oldOutline: el.style.outline
-    })
-    if (!isFocusable(el)) setFocusable(el)
-    el.addEventListener('focusin', focusinHandler)
-    el.addEventListener('focusout', focusoutHandler)
-  }
-
-  function unbind (el) {
-    const { oldOutline, oldTabIndex } = elMap.get(el)
-    if (oldOutline) el.style.outline = oldOutline
-    if (oldTabIndex) el.setAttribute('tabindex', oldTabIndex)
-    elMap.delete(el)
-    el.removeEventListener('focusin', focusinHandler)
-    el.removeEventListener('focusout', focusoutHandler)
-  }
-
-  function setIsHideOutline (bool) {
-    isHideOutline = bool
-  }
-
-  function getIsHideOutline () {
-    return isHideOutline
-  }
-
-  return {
-    bind,
-    unbind,
-    setIsHideOutline,
-    getIsHideOutline
-  }
-})()
+export default {
+  bind,
+  unbind
+}
