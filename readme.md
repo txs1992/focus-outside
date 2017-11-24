@@ -31,9 +31,9 @@ const elm = document.querySelector('#dorpdown-button')
 bind(elm, callback)
 
 function callback () {
-	console.log('您点击了 dropdown 按钮外面的区域')
-	// 清除绑定
-	unbind(elm)
+  console.log('您点击了 dropdown 按钮外面的区域')
+  // 清除绑定
+  unbind(elm)
 }
 ```
 
