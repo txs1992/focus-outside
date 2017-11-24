@@ -1,56 +1,48 @@
-import debounce from 'lodash-es/debounce'
+import Map from './map-shim.js'
 
-let callback
-let mountElement
+const elMap = new Map()
 
-function isFunction (callback) {
-  const isFn = typeof callback === 'function'
-  if (!isFn) error('function', callback)
-  return isFn
-}
-
-function isDOMObject (el) {
-  const isDom = el instanceof HTMLElement
-  if (!isDom) error('HTMLElement', el)
-  return isDom
-}
-
-function error (expect, got) {
-  console.error(`FocusOutside: expects a ${expect} value, got ${got}`)
+function isNotFocusable (el) {
+  return isNaN(parseInt(el.getAttribute('tabindex')))
 }
 
 function setFocusable (el) {
-  if (!isDOMObject(el)) return
   el.setAttribute('tabindex', -1)
-  el.style.outline = 'none'
 }
 
-function focusinHandler (e) {
-  if (mountElement.contains(e.target)) focusDebounce.cancel()
+function focusinHandler ({ currentTarget }) {
+  const option = elMap.get(currentTarget)
+  clearTimeout(option.timerId)
 }
 
-function focusoutHandler (e) {
-  callback(e)
+function focusoutHandler ({ currentTarget }) {
+  const option = elMap.get(currentTarget)
+  option.timerId = setTimeout(option.callback, 0)
 }
 
-const focusDebounce = debounce(focusoutHandler, 0)
-
-function isFocusable (el) {
-  if (isDOMObject(el)) return typeof el.getAttribute('tabindex') === 'string'
+function bind (el, callback) {
+  elMap.set(el, {
+    callback,
+    oldTabIndex: el.getAttribute('tabindex')
+  })
+  if (isNotFocusable(el)) setFocusable(el)
+  el.addEventListener('focusin', focusinHandler)
+  el.addEventListener('focusout', focusoutHandler)
 }
 
-export function unbind (el) {
-  el.removeEventListener('focusin', focusinHandler, false)
-  el.removeEventListener('focusout', focusDebounce, false)
+function unbind (el) {
+  const { oldTabIndex } = elMap.get(el)
+  if (oldTabIndex) {
+    el.setAttribute('tabindex', oldTabIndex)
+  } else {
+    el.removeAttribute('tabindex')
+  }
+  elMap.delete(el)
+  el.removeEventListener('focusin', focusinHandler)
+  el.removeEventListener('focusout', focusoutHandler)
 }
 
-export function bind (el, fn) {
-  if (!isDOMObject(el)) return
-  if (!isFunction(fn)) return
-  if (!isFocusable(el)) setFocusable(el)
-  callback = fn
-  mountElement = el
-  unbind(el)
-  el.addEventListener('focusin', focusinHandler, false)
-  el.addEventListener('focusout', focusDebounce, false)
+export default {
+  bind,
+  unbind
 }
