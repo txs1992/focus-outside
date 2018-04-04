@@ -3,7 +3,6 @@
   "version": "0.1.2",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "clear": "rm -rf dist/ && rm -rf bundle.js && clear",
     "build": "npm run clear && rollup -c"
   },

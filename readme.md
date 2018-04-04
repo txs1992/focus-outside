@@ -1,5 +1,10 @@
 # focus-outside
 
+![](http://img.shields.io/travis/1969290646/stylus-converter.svg)
+![](https://img.shields.io/npm/dt/focus-outside.svg)
+![](https://img.shields.io/npm/v/focus-outside.svg)
+![](https://img.shields.io/npm/l/focus-outside.svg)
+
 ## 为什么要造这个轮子
 
 	主要原因是在公司的一次小组分享中，组长分享了他项目中遇到的问题：在一个多 iframe 系统中，
