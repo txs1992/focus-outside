@@ -41,12 +41,22 @@ export default function Map () {
     }
   }
 
+  function values () {
+    return maps.map(item => item[1])
+  }
+
+  function entries () {
+    return maps
+  }
+
   return {
     get,
     set,
     has,
     size: 0,
     clear,
+    values,
+    entries,
     'delete': remove
   }
 }

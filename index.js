@@ -10,38 +10,63 @@ function setFocusable (el) {
   el.setAttribute('tabindex', -1)
 }
 
-function focusinHandler ({ currentTarget }) {
-  const option = elMap.get(currentTarget)
-  clearTimeout(option.timerId)
+function focusinHandler ({ target }) {
+  const { el, nodeList } = findNodeMap(elMap.entries(), target) || {}
+  if (!el) return
+  clearTimeout(nodeList.timerId)
 }
 
-function focusoutHandler (e) {
-  const option = elMap.get(e.currentTarget)
-  option.timerId = setTimeout(() => {
-    option.callback(e)
-  }, 0)
+function focusoutHandler ({ target }) {
+  const { el, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
+  if (!el) return
+  nodeList.timerId = setTimeout(key, 10)
 }
 
 function bind (el, callback) {
-  elMap.set(el, {
-    callback,
-    oldTabIndex: el.getAttribute('tabindex')
-  })
+  if (elMap.has(callback)) {
+    const nodeList = elMap.get(callback)
+    nodeList.push({
+      node: el,
+      oldTabIndex: el.getAttribute('tabindex')
+    })
+  } else {
+    elMap.set(callback, [{
+      node: el,
+      oldTabIndex: el.getAttribute('tabindex')
+    }])
+  }
   if (isNotFocusable(el)) setFocusable(el)
   el.addEventListener('focusin', focusinHandler)
   el.addEventListener('focusout', focusoutHandler)
 }
 
-function unbind (el) {
-  const { oldTabIndex } = elMap.get(el)
-  if (oldTabIndex) {
-    el.setAttribute('tabindex', oldTabIndex)
-  } else {
-    el.removeAttribute('tabindex')
+function findNodeMap (entries, node) {
+  for (let i = 0; i < entries.length; i++) {
+    const [key, nodeList] = entries[i]
+    const el = nodeList.find(item => item.node === node)
+    if (el) return { key, nodeList, el }
   }
-  elMap.delete(el)
-  el.removeEventListener('focusin', focusinHandler)
-  el.removeEventListener('focusout', focusoutHandler)
+}
+
+function unbind (target) {
+  const { el, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
+  if (!el) return
+
+  const { node, oldTabIndex } = el
+
+  if (oldTabIndex) {
+    node.setAttribute('tabindex', oldTabIndex)
+  } else {
+    node.removeAttribute('tabindex')
+  }
+
+  node.removeEventListener('focusin', focusinHandler)
+  node.removeEventListener('focusout', focusoutHandler)
+
+  const index = nodeList.indexOf(el)
+  nodeList.splice(index, 1)
+
+  if (!nodeList.length) elMap.delete(key)
 }
 
 export default {

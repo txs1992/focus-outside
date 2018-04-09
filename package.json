@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "scripts": {
     "clear": "rm -rf dist/ && rm -rf bundle.js && clear",
-    "build": "npm run clear && rollup -c"
+    "build": "npm run clear && rollup -c && npm link"
   },
   "author": "xusheng.tao <https://github.com/1969290646>",
   "license": "MIT",
