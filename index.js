@@ -15,9 +15,11 @@ function focusinHandler ({ currentTarget }) {
   clearTimeout(option.timerId)
 }
 
-function focusoutHandler ({ currentTarget }) {
-  const option = elMap.get(currentTarget)
-  option.timerId = setTimeout(option.callback, 0)
+function focusoutHandler (e) {
+  const option = elMap.get(e.currentTarget)
+  option.timerId = setTimeout(() => {
+    option.callback(e)
+  }, 0)
 }
 
 function bind (el, callback) {
