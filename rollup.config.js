@@ -23,6 +23,6 @@ export default {
       exclude: 'node_modules/**',
       plugins: ['external-helpers']
     }),
-    // uglify({}, minify)
+    uglify({}, minify)
   ]
 }
