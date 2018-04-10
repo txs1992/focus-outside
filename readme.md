@@ -13,6 +13,9 @@
 	list，这是因为 iframe 不会触发 click 事件。 通过研究发现 iframe 会触发 focus 事件，
 	而将 DOM 元素的 tabindex 属性设置为 number, 则该元素变成 focusable 。
 
+## 在线示例
+<iframe src="//jsfiddle.net/_MT_/eywraw8t/25950/embed/result/" width="700px" height="500px" frameborder="0" scrolling="no"></iframe>
+
 ## 搭建开发环境
 
 ```shell
