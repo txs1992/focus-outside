@@ -14,7 +14,7 @@
 	而将 DOM 元素的 tabindex 属性设置为 number, 则该元素变成 focusable 。
 
 ## 在线示例
-<iframe src="//jsfiddle.net/_MT_/eywraw8t/25950/embed/result/" width="700px" height="500px" frameborder="0" scrolling="no"></iframe>
+[查看示例](https://jsfiddle.net/_MT_/eywraw8t/25950/)
 
 ## 搭建开发环境
 
