@@ -1,6 +1,6 @@
 # focus-outside
 
-![](http://img.shields.io/travis/1969290646/stylus-converter.svg)
+![](http://img.shields.io/travis/1969290646/focus-outside.svg)
 ![](https://img.shields.io/npm/dt/focus-outside.svg)
 ![](https://img.shields.io/npm/v/focus-outside.svg)
 ![](https://img.shields.io/npm/l/focus-outside.svg)
