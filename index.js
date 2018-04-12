@@ -1,5 +1,6 @@
 import Map from './map-shim.js'
 
+const els = []
 const elMap = new Map()
 
 function isNotFocusable (el) {
@@ -17,12 +18,23 @@ function focusinHandler ({ target }) {
 }
 
 function focusoutHandler ({ target }) {
-  const { el, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
+  const node = els.find(el => el.contains(target) || el === target)
+  if (!node) return
+  const { el, key, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!el) return
   nodeList.timerId = setTimeout(key, 10)
 }
 
-function bind (el, callback) {
+function findNodeMap (entries, node) {
+  for (let i = 0; i < entries.length; i++) {
+    const [key, nodeList] = entries[i]
+    const el = nodeList.find(item => item.node === node)
+    if (el) return { key, nodeList, el }
+  }
+}
+
+export function bind (el, callback) {
+  if (els.indexOf(el) < 0) els.push(el)
   if (elMap.has(callback)) {
     const nodeList = elMap.get(callback)
     nodeList.push({
@@ -40,15 +52,7 @@ function bind (el, callback) {
   el.addEventListener('focusout', focusoutHandler)
 }
 
-function findNodeMap (entries, node) {
-  for (let i = 0; i < entries.length; i++) {
-    const [key, nodeList] = entries[i]
-    const el = nodeList.find(item => item.node === node)
-    if (el) return { key, nodeList, el }
-  }
-}
-
-function unbind (target) {
+export function unbind (target) {
   const { el, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
   if (!el) return
 
@@ -67,9 +71,4 @@ function unbind (target) {
   nodeList.splice(index, 1)
 
   if (!nodeList.length) elMap.delete(key)
-}
-
-export default {
-  bind,
-  unbind
 }
