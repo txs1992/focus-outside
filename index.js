@@ -11,14 +11,20 @@ function setFocusable (el) {
   el.setAttribute('tabindex', -1)
 }
 
+function getNode (target) {
+  return els.find(el => el.contains(target) || el === target)
+}
+
 function focusinHandler ({ target }) {
-  const { el, nodeList } = findNodeMap(elMap.entries(), target) || {}
+  const node = getNode(target)
+  if (!node) return
+  const { el, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!el) return
   clearTimeout(nodeList.timerId)
 }
 
 function focusoutHandler ({ target }) {
-  const node = els.find(el => el.contains(target) || el === target)
+  const node = getNode(target)
   if (!node) return
   const { el, key, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!el) return
