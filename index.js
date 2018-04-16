@@ -63,6 +63,8 @@ export function unbind (target) {
   if (!el) return
 
   const { node, oldTabIndex } = el
+  const index = els.indexOf(node)
+  if (index > -1) els.splice(index)
 
   if (oldTabIndex) {
     node.setAttribute('tabindex', oldTabIndex)
@@ -73,8 +75,8 @@ export function unbind (target) {
   node.removeEventListener('focusin', focusinHandler)
   node.removeEventListener('focusout', focusoutHandler)
 
-  const index = nodeList.indexOf(el)
-  nodeList.splice(index, 1)
+  const nodeIndex = nodeList.indexOf(el)
+  if (index > -1) nodeList.splice(nodeIndex, 1)
 
   if (!nodeList.length) elMap.delete(key)
 }
