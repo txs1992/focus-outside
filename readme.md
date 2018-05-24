@@ -2,11 +2,13 @@
 
 ![](http://img.shields.io/travis/TaoXuSheng/focus-outside.svg)
 ![](https://img.shields.io/npm/dt/focus-outside.svg)
+![](https://img.shields.io/npm/dm/focus-outside.svg)
 ![](https://img.shields.io/npm/v/focus-outside.svg)
 ![](https://img.shields.io/npm/l/focus-outside.svg)
+![](https://img.shields.io/node/v/passport.svg)
 
 ## 嘿嘿
-> ^_^ 既然都已经来了，就留下 star 呗。 
+> ^_^ 既然都已经来了，就留下 star 呗。
 
 ## 为什么要造这个轮子
 > 主要原因是在公司的一次小组分享中，组长分享了他项目中遇到的问题：在一个多 iframe 系统中，在 iframe 的上方是一个 dropdown 组件，点击 dropdown 按钮弹出 dropdown list, 这时点击页面的其他区域会关闭 dropdown list。然而如果点击了 iframe 却无法关闭 dropdown list，这是因为 iframe 不会触发 click 事件。 通过研究发现 iframe 会触发 focus 事件，而将 DOM 元素的 tabindex 属性设置为 number, 则该元素变成 focusable 。
