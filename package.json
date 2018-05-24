@@ -6,7 +6,7 @@
     "clear": "rm -rf dist/ && rm -rf bundle.js && clear",
     "build": "npm run clear && rollup -c"
   },
-  "author": "xusheng.tao <https://github.com/1969290646>",
+  "author": "xusheng.tao <https://github.com/txs1992>",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -29,11 +29,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1969290646/focus-outside.git"
+    "url": "git+https://github.com/txs1992/focus-outside.git"
   },
   "bugs": {
-    "url": "https://github.com/1969290646/focus-outside/issues"
+    "url": "https://github.com/txs1992/focus-outside/issues"
   },
-  "homepage": "https://github.com/1969290646/focus-outside#readme",
+  "homepage": "https://github.com/txs1992/focus-outside#readme",
   "description": ""
 }
