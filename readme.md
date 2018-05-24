@@ -1,4 +1,4 @@
-# focus-outside
+<h1 align="center">focus-outside</h1>
 
 <p align="center">
   <a href="http://img.shields.io/travis/txs1992/focus-outside.svg">
