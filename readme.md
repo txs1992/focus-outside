@@ -143,7 +143,7 @@ export default {
   },
 
   destoryed () {
-    ocusUnbind(this.$refs.dropdown.$el, this.$refs.dropdown.hide)
+    focusUnbind(this.$refs.dropdown.$el, this.$refs.dropdown.hide)
     focusUnbind(this.$refs.dropdownContent.$el, this.$refs.dropdown.hide)
   }
 }
@@ -154,8 +154,8 @@ export default {
 #### 在 ant-design 中使用
 
 ```javascript
-import { Menu, Dropdown, Icon, Button } = antd
-import { bind: focusBind, unbind: focusUnbind } = 'focus-outside'
+import { Menu, Dropdown, Icon, Button } from 'antd'
+import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
 
 function getItems () {
   return [1,2,3,4].map(item => {
