@@ -31,6 +31,16 @@
     "type": "git",
     "url": "git+https://github.com/txs1992/focus-outside.git"
   },
+  "keywords": [
+    "clickaway",
+    "click-away",
+    "clickOutside",
+    "click-outside",
+    "focusaway",
+    "focus-away",
+    "focusoutside",
+    "focus-outside"
+  ],
   "bugs": {
     "url": "https://github.com/txs1992/focus-outside/issues"
   },

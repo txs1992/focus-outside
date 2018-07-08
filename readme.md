@@ -27,7 +27,7 @@
       English
     </a>
     <span> | </span>
-    <a href="https://github.com/txs1992/focus-outside/blob/master/doc/zh-cn.md#readme">
+    <a href="https://github.com/txs1992/focus-outside/blob/master/docs/zh-cn.md#readme">
       中文
     </a>
   </h3>
