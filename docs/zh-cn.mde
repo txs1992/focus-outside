@@ -33,63 +33,65 @@
   </h3>
 </div>
 
-## what is this
+## 为什么要造这个轮子
 
-> A library that solves the problem that iframe element cannot trigger clickOutside.
+> 在公司的一次小组分享会上，[组长](https://github.com/coolzjy) 给我们分享了一个他在项目中遇到的一个问题。在一个嵌入 Iframe 的系统中，当我们点击 Dropdown 展开后，再去点击 Iframe 发现无法触发 Dropdown 的 clickOutside 事件，导致 Dropdown 无法收起。[查看示例](https://jsfiddle.net/_MT_/wLkgu614/29/)
+>
+> 关于 Iframe 为什么不能触发 clickOutside 请阅读这篇文章 [如何优雅解决 Iframe 无法触发 clickOutside](https://txs1992.github.io/mt-blog/blog/click-outside.html)
 
 ## API
 
-| function | descrption | options |
+| 函数       | 说明                         | 参数                                                                           |
 |:--------:|:--------:|:--------:|
-| `bind `  | Bind a callback function to the specified element, triggering a callback when the element loses focus | `el`：Element Node，`callback `：Callback，`className`：The class name to bind to the element, default className = 'focus-outside' |
-| `unbind` | Clear element binding function | `el` Element Node, `callback` Callback |
+| `bind `  | 为指定元素绑定一个回调函数，当元素失去焦点时触发回调 | `el`：元素节点，`callback `：回调，`className`：给元素绑定的类名，默认 className = 'focus-outside' |
+| `unbind` | 取消元素绑定的函数 | `el`：元素节点，`callback`：回调 |
 
-## Use FocusOutside
+## 使用 FocusOutside
 
-#### Simple Example
+#### 简单使用
 
 ```js
 // import { bind, unbidn } from 'focus-outside'
-// It is recommended to use the following alias to prevent conflicts with your function naming.
+// 建议使用下面这种别名，防止和你的函数命名冲突了。
 import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
 
-// If you are using a CDN, you should use it like this.
+// 如果你是使用 CDN 引入的，应该这样使用。
 // <script src="https://unpkg.com/focus-outside@0.5.2/lib/index.js"></script>
 // const { bind: focusBind, unbind: focusUnbind } = FocusOutside
 
 const elm = document.querySelector('#dorpdown-button')
-// bind function
+// 绑定函数
 focusBind(elm, callback)
 
 function callback () {
-  console.log('You clicked on the area outside the dropdown button.')
-  // clear bind
+  console.log('您点击了 dropdown 按钮外面的区域')
+  // 清除绑定
   focusUnbind(elm, callback)
 }
 ```
 
-[View Online Example](https://jsfiddle.net/_MT_/z0dejc23/9/)
+[查看在线示例](https://jsfiddle.net/_MT_/z0dejc23/9/)
 
-#### Notice
+#### 注意
 
-When the element is bound, `focus-outside` sets the element as a focusable element, which will give it a highlight style when it gets the focus browser. If you don't want to see this style, you only need to put this element The CSS property outline is set to none. The bind function of the focsout-outside version 0.5.0 adds a className parameter, adding a class name for each bound element. The default class name is `focus-outside`, and the class name is removed from the element when the unbind function is executed.
+前面说到过元素变成 focusable 后，当它获取焦点浏览器会给它加上高亮样式，如果你不希望看到和这个样式，你只需要将这个元素的 CSS 属性 outline 设置为 none。focsout-outside 0.5.0 版本的 bind 函数新增 className 参数，为每个绑定的元素添加类名，默认类名是 focus-outside，执行 unbind 函数时候会将这个类名从元素上删除 。
 
 ```js
 <div id="focus-ele"></div>
 
 // js
 const elm = document.querySelector('#focus-ele')
-// default classname is focus-outside
+// 默认类名是 focus-outside
 focusBind(elm, callback, 'my-focus-name')
 
 // css
-// If you need to override all the default styles, you can put this code in the global CSS.
+// 如果你需要覆盖所有的默认样式，可以在这段代码放在全局 CSS 中。
 .my-focus-name {
   outline: none;
 }
 ```
 
-#### Used in Vue
+#### 在 Vue 中使用
 
 ```js
 
@@ -116,31 +118,31 @@ export default {
 
   methods: {
     handleOutside () {
-      // Do something...
+      // 做点什么...
     }
   }
 }
 ```
 
-[View Online Example](https://jsfiddle.net/_MT_/57Lmbpe9/)
+[查看在线示例](https://jsfiddle.net/_MT_/57Lmbpe9/)
 
-#### Used in Element
+#### 在 Element 中使用
 
 ```js
 <el-dropdown
   ref="dropdown"
   trigger="click">
   <span class="el-dropdown-link">
-    dropdown menu<i class="el-icon-arrow-down el-icon--right"></i>
+    下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
   <el-dropdown-menu
     ref="dropdownContent"
     slot="dropdown">
-    <el-dropdown-item>Oyster</el-dropdown-item>
-    <el-dropdown-item>Gold cake</el-dropdown-item>
-    <el-dropdown-item>Lion head</el-dropdown-item>
-    <el-dropdown-item>Snail powder</el-dropdown-item>
-    <el-dropdown-item>Double skin milk</el-dropdown-item>
+    <el-dropdown-item>黄金糕</el-dropdown-item>
+    <el-dropdown-item>狮子头</el-dropdown-item>
+    <el-dropdown-item>螺蛳粉</el-dropdown-item>
+    <el-dropdown-item>双皮奶</el-dropdown-item>
+    <el-dropdown-item>蚵仔煎</el-dropdown-item>
   </el-dropdown-menu>
 </el-dropdown>
 
@@ -159,9 +161,9 @@ export default {
 }
 ```
 
-[View Online Example](https://jsfiddle.net/_MT_/1wb8nk67/57/)
+[查看在线示例](https://jsfiddle.net/_MT_/1wb8nk67/57/)
 
-#### Used in Ant Design
+#### 在 ant-design 中使用
 
 ```js
 import { Menu, Dropdown, Icon, Button } from 'antd'
@@ -243,15 +245,15 @@ ReactDOM.render(
 )
 ```
 
-[View Online Example](https://codepen.io/taoxusheng/pen/KeRyXL?editors=1010)
+[查看在线示例](https://codepen.io/taoxusheng/pen/KeRyXL?editors=1010)
 
-## Build a development environment
+## 搭建开发环境
 
 ```shell
-1. Fork project, then clone to local.
+1. fork 项目，然后 clone 到本地
 git clone git@github.com:txs1992/focus-outside.git
 
-2. Installation dependencies (make sure your computer has Node.js installed)
+2. 安装依赖(请确保您的电脑安装了 Node.js)
 npm install
 ```
 
