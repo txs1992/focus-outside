@@ -43,9 +43,9 @@
 // 建议使用下面这种别名，防止和你的函数命名冲突了。
 import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
 
-// 如果你是使用 CDN 引入的，应该这么引入
-// <script src="https://unpkg.com/focus-outside@0.4.0/lib/index.js"></script>
-const { bind: focusBind, unbind: focusUnbind } = FocusOutside
+// 如果你是使用 CDN 引入的，应该这样使用。
+// <script src="https://unpkg.com/focus-outside@0.5.2/lib/index.js"></script>
+// const { bind: focusBind, unbind: focusUnbind } = FocusOutside
 
 const elm = document.querySelector('#dorpdown-button')
 // 绑定函数
@@ -62,7 +62,7 @@ function callback () {
 
 #### 注意
 
-前面说到过元素变成 focusable 后，当它获取焦点浏览器会给它加上高亮样式，如果你不希望看到和这个样式，你只需要将这个元素的 CSS 属性 outline 设置为 none。focsout-outside 0.5 的版本新增 className 参数，为每个绑定的元素添加类名，默认类名是 focus-outside，执行 unbind 函数时候会将这个类名从元素上删除 。
+前面说到过元素变成 focusable 后，当它获取焦点浏览器会给它加上高亮样式，如果你不希望看到和这个样式，你只需要将这个元素的 CSS 属性 outline 设置为 none。focsout-outside 0.5.0 版本的 bind 函数新增 className 参数，为每个绑定的元素添加类名，默认类名是 focus-outside，执行 unbind 函数时候会将这个类名从元素上删除 。
 
 ```javascript
 <div id="focus-ele"></div>
@@ -239,7 +239,7 @@ ReactDOM.render(
 
 ```shell
 1. fork 项目，然后 clone 到本地
-git clone git@github.com:1969290646/focus-outside.git
+git clone git@github.com:txs1992/focus-outside.git
 
 2. 安装依赖(请确保您的电脑安装了 Node.js)
 npm install
