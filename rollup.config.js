@@ -5,7 +5,7 @@ import eslint from 'rollup-plugin-eslint'
 import resolve from 'rollup-plugin-node-resolve'
 
 export default {
-  input: 'src/index.js',
+  input: 'packages/index.js',
   output: {
     file: 'lib/index.js',
     name: 'FocusOutside',
