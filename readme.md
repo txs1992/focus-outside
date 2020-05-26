@@ -35,7 +35,7 @@
 
 ## what is this
 
-> A library that solves the problem that iframe element cannot trigger clickOutside.
+> A clickOutside library, and it can solve the problem that iframe cannot trigger clickOutside.
 
 ## API
 
