@@ -9,20 +9,20 @@ export default {
   output: {
     file: 'lib/index.js',
     name: 'FocusOutside',
-    format: 'umd'
+    format: 'umd',
   },
   plugins: [
     eslint({
       throwError: true,
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
     }),
     resolve({
-      extensions: ['.js']
+      extensions: ['.js'],
     }),
     babel({
       exclude: 'node_modules/**',
-      plugins: ['external-helpers']
+      plugins: ['external-helpers'],
     }),
-    uglify({}, minify)
-  ]
+    uglify({}, minify),
+  ],
 }

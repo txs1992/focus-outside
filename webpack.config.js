@@ -40,8 +40,12 @@ module.exports = {
         include: [resolve('src')],
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(ttf|woff)$/,
+        use: ['url-loader', 'file-loader'],
       },
     ],
   },

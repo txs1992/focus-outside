@@ -2,6 +2,7 @@
   <div class="cpt-app">
     <div class="menus">
       <router-link to="/">Simple</router-link>
+      <router-link to="/complex">Complex</router-link>
     </div>
     <div class="container">
       <router-view></router-view>
@@ -15,9 +16,9 @@ export default {
     return {
       visible: true,
       rightVisible: true,
-      message: 'Hello Vue Menu Sidebar'
+      message: 'Hello Vue Menu Sidebar',
     }
-  }
+  },
 }
 </script>
 
