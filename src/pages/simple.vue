@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import { bind as focusBind, unbind as focusUnbind } from '../../packages/index.js'
+// import { bind as focusBind, unbind as focusUnbind } from '../../packages/index.js'
+import { bind as focusBind, unbind as focusUnbind } from '../../dist/focus-outside'
 
 export default {
   data() {

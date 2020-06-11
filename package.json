@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "scripts": {
     "clear": "rm -rf dist/ && rm -rf bundle.js",
-    "build": "npm run clear && rollup -c",
+    "build": "npm run clear && node build/config.js",
     "lint": "eslint --ext .js,.vue packages",
     "format": "prettier --config ./.prettierrc.yaml --write './**/*.{js,vue,css,scss}'",
     "precommit": "pretty-quick --staged",
@@ -13,11 +13,7 @@
   "author": "xusheng.tao <https://github.com/txs1992>",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.2",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015-rollup": "^3.0.0",
+    "@babel/core": "^7.8.7",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.5.3",
     "element-ui": "^2.13.2",
@@ -36,11 +32,12 @@
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "rollup": "^0.51.7",
-    "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-eslint": "^4.0.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^2.0.1",
+    "rollup": "^2.0.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
     "sass-loader": "^8.0.2",
     "scss-loader": "0.0.1",
     "typescript": "^3.9.5",
@@ -72,5 +69,5 @@
     "url": "https://github.com/txs1992/focus-outside/issues"
   },
   "homepage": "https://github.com/txs1992/focus-outside#readme",
-  "description": ""
+  "description": "📦 A good clickOutside library, and it solves the problem that iframe cannot trigger clickOutside.. 一个很棒的 clickOutside 库，并且它解决了 iframe 无法触发 clickOutside 的问题。"
 }
