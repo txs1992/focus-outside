@@ -80,7 +80,6 @@ export function bind(el, callback, key, className = 'focus-outside') {
 }
 
 export function unbind(target) {
-  debugger
   console.log('unbind:', target)
 
   const { item, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
