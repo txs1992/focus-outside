@@ -32,17 +32,17 @@ function removeClass(el, name) {
 function focusinHandler({ target }) {
   const node = getNode(target)
   if (!node) return
-  const { item } = findNodeMap(elMap.entries(), node) || {}
+  const { item, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!item) return
-  clearTimeout(item.timerId)
+  clearTimeout(nodeList.timerId)
 }
 
 function focusoutHandler({ target }) {
   const node = getNode(target)
   if (!node) return
-  const { item } = findNodeMap(elMap.entries(), node) || {}
+  const { item, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!item) return
-  item.timerId = setTimeout(() => item.callback(target), 10)
+  nodeList.timerId = setTimeout(() => item.callback(target), 10)
 }
 
 function findNodeMap(entries, node) {
