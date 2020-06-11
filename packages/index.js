@@ -32,40 +32,43 @@ function removeClass(el, name) {
 function focusinHandler({ target }) {
   const node = getNode(target)
   if (!node) return
-  const { el, nodeList } = findNodeMap(elMap.entries(), node) || {}
-  if (!el) return
-  clearTimeout(nodeList.timerId)
+  const { item } = findNodeMap(elMap.entries(), node) || {}
+  if (!item) return
+  clearTimeout(item.timerId)
 }
 
 function focusoutHandler({ target }) {
   const node = getNode(target)
   if (!node) return
-  const { el, key, nodeList } = findNodeMap(elMap.entries(), node) || {}
-  if (!el) return
-  nodeList.timerId = setTimeout(() => key(target), 10)
+  const { item } = findNodeMap(elMap.entries(), node) || {}
+  if (!item) return
+  item.timerId = setTimeout(() => item.callback(target), 10)
 }
 
 function findNodeMap(entries, node) {
   for (let i = 0; i < entries.length; i++) {
     const [key, nodeList] = entries[i]
-    const el = nodeList.find((item) => item.node === node)
-    if (el) return { key, nodeList, el }
+    const item = nodeList.find((item) => item.node === node)
+    if (item) return { key, item, nodeList }
   }
 }
 
-export function bind(el, callback, className = 'focus-outside') {
+export function bind(el, callback, key, className = 'focus-outside') {
+  if (!key) key = callback
   callback.defaultClass = className
   if (els.indexOf(el) < 0) els.push(el)
-  if (elMap.has(callback)) {
-    const nodeList = elMap.get(callback)
+  if (elMap.has(key)) {
+    const nodeList = elMap.get(key)
     nodeList.push({
       node: el,
+      callback,
       oldTabIndex: el.getAttribute('tabindex'),
     })
   } else {
-    elMap.set(callback, [
+    elMap.set(key, [
       {
         node: el,
+        callback,
         oldTabIndex: el.getAttribute('tabindex'),
       },
     ])
@@ -77,15 +80,18 @@ export function bind(el, callback, className = 'focus-outside') {
 }
 
 export function unbind(target) {
-  const { el, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
-  if (!el) return
+  debugger
+  console.log('unbind:', target)
 
-  const { node, oldTabIndex } = el
+  const { item, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
+  if (!item) return
+
+  const { node, callback, oldTabIndex } = item
 
   const index = els.indexOf(node)
-  if (index > -1) els.splice(index)
+  if (index > -1) els.splice(index, 1)
 
-  removeClass(node, key.defaultClass)
+  removeClass(node, callback.defaultClass)
 
   if (oldTabIndex) {
     node.setAttribute('tabindex', oldTabIndex)
@@ -96,7 +102,7 @@ export function unbind(target) {
   node.removeEventListener('focusin', focusinHandler)
   node.removeEventListener('focusout', focusoutHandler)
 
-  const nodeIndex = nodeList.indexOf(el)
+  const nodeIndex = nodeList.indexOf(item)
   if (index > -1) nodeList.splice(nodeIndex, 1)
 
   if (!nodeList.length) elMap.delete(key)
