@@ -1,4 +1,4 @@
-import Map from './map-shim.js'
+import Map from './map-shim.ts'
 const els = []
 const elMap = new Map()
 
@@ -45,7 +45,7 @@ function focusoutHandler({ target }) {
   nodeList.timerId = setTimeout(() => item.callback(target), 10)
 }
 
-function findNodeMap(entries, node) {
+function findNodeMap(entries, node): any {
   for (let i = 0; i < entries.length; i++) {
     const [key, nodeList] = entries[i]
     const item = nodeList.find((item) => item.node === node)

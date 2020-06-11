@@ -24,7 +24,7 @@ async function build(inputOptions, outputOptions) {
 }
 
 const inputOptions = {
-  input: 'packages/index.js',
+  input: 'packages/index.ts',
   plugins: buildPlugins.slice(0, 4),
 }
 

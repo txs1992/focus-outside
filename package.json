@@ -12,6 +12,14 @@
   },
   "author": "xusheng.tao <https://github.com/txs1992>",
   "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "eslint"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "clean-webpack-plugin": "^3.0.0",
@@ -40,11 +48,13 @@
     "rollup-plugin-typescript": "^1.0.1",
     "sass-loader": "^8.0.2",
     "scss-loader": "0.0.1",
+    "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
     "uglify-es": "^3.1.10",
     "url-loader": "^4.1.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.2",
+    "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.1.6",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0",

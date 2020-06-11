@@ -18,29 +18,65 @@ module.exports = {
     path: resolve('dist'),
     publicPath: '/',
   },
+  // module: {
+  //   rules: [
+  //     {
+  //       test: /\.(js|vue)$/,
+  //       loader: 'eslint-loader',
+  //       enforce: 'pre',
+  //       include: [resolve('src')],
+  //       options: {
+  //         formatter: require('eslint-friendly-formatter'),
+  //         emitWarning: true,
+  //       },
+  //     },
+  //     {
+  //       test: /\.vue$/,
+  //       loader: 'vue-loader',
+  //     },
+  //     {
+  //       test: /\.js$/,
+  //       loader: 'babel-loader',
+  //       include: [resolve('src')],
+  //     },
+  //     {
+  //       test: /\.(scss|css)$/,
+  //       use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+  //     },
+  //     {
+  //       test: /\.(ttf|woff)$/,
+  //       use: ['url-loader', 'file-loader'],
+  //     },
+  //   ],
+  // },
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src')],
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {},
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
         options: {
-          formatter: require('eslint-friendly-formatter'),
-          emitWarning: true,
+          appendTsSuffixTo: [/\.vue$/],
         },
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]',
+        },
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src')],
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader'],
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader'],
       },
       {
@@ -48,6 +84,14 @@ module.exports = {
         use: ['url-loader', 'file-loader'],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.vue', '.json'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, './examples/'),
+      '@packages': path.resolve(__dirname, './packages/'),
+    },
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -58,15 +102,20 @@ module.exports = {
     publicPath: '/',
     historyApiFallback: true,
   },
+  performance: {
+    hints: false,
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Development',
       filename: 'index.html',
-      template: 'index.html',
+      template: './index.html',
     }),
-    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+    }),
     new VueLoaderPlugin(),
   ],
 }
