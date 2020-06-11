@@ -2,15 +2,13 @@
   <div class="page-simple">
     <el-button type="mini" ref="btn-one">按钮1</el-button>
     <el-button type="mini" ref="btn-two">按钮2</el-button>
-    <iframe src="https://txs1992.github.io/fast-amap/"></iframe>
+    <iframe src="https://segmentfault.com/blogs/hottest/monthly"></iframe>
+    <!-- <iframe src="https://txs1992.github.io/fast-amap/"></iframe> -->
   </div>
 </template>
 
 <script>
-import {
-  bind as focusBind,
-  unbind as focusUnbind,
-} from '../../packages/index.js'
+import { bind as focusBind } from '../../packages/index.js'
 
 export default {
   data() {
@@ -18,29 +16,23 @@ export default {
   },
 
   mounted() {
-    const btnOne = this.$refs['btn-one']
-    const btnTwo = this.$refs['btn-two']
+    const btnOne = this.$refs['btn-one'].$el
+    const btnTwo = this.$refs['btn-two'].$el
 
     if (btnOne && btnTwo) {
       focusBind(btnOne, this.outsideOne, 'out-one')
-       focusBind(btnTwo, this.outsideTwo, 'out-two')
+      focusBind(btnTwo, this.outsideTwo, 'out-two')
     }
   },
 
-  outsideOne() {
-     console.log('outsideOne')
-     const btnOne = this.$refs['btn-one']
-     if (btnOne) {
- focusBind(btnOne, this.outsideOne, 'out-one')
-     }
-  },
+  methods: {
+    outsideOne() {
+      console.log('outsideOne')
+    },
 
-  outsideTwo() {
-    console.log('outsideTwo')
-    const btnOne = this.$refs['btn-one']
-     if (btnOne) {
- focusBind(btnOne, this.outsideOne, 'out-one')
-     }
+    outsideTwo() {
+      console.log('outsideTwo')
+    },
   },
 }
 </script>

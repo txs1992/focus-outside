@@ -1,7 +1,6 @@
 import Map from './map-shim.js'
 const els = []
 const elMap = new Map()
-let defaultClass = 'focus-outside'
 
 function isNotFocusable(el) {
   return isNaN(parseInt(el.getAttribute('tabindex')))
@@ -43,7 +42,7 @@ function focusoutHandler({ target }) {
   if (!node) return
   const { el, key, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!el) return
-  nodeList.timerId = setTimeout(key, 10)
+  nodeList.timerId = setTimeout(() => key(target), 10)
 }
 
 function findNodeMap(entries, node) {
@@ -54,8 +53,8 @@ function findNodeMap(entries, node) {
   }
 }
 
-export function bind(el, callback, className) {
-  if (className) defaultClass = className
+export function bind(el, callback, className = 'focus-outside') {
+  callback.defaultClass = className
   if (els.indexOf(el) < 0) els.push(el)
   if (elMap.has(callback)) {
     const nodeList = elMap.get(callback)
@@ -72,7 +71,7 @@ export function bind(el, callback, className) {
     ])
   }
   if (isNotFocusable(el)) setFocusable(el)
-  addClass(el, defaultClass)
+  addClass(el, className)
   el.addEventListener('focusin', focusinHandler)
   el.addEventListener('focusout', focusoutHandler)
 }
@@ -86,7 +85,7 @@ export function unbind(target) {
   const index = els.indexOf(node)
   if (index > -1) els.splice(index)
 
-  removeClass(node, defaultClass)
+  removeClass(node, key.defaultClass)
 
   if (oldTabIndex) {
     node.setAttribute('tabindex', oldTabIndex)

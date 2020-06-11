@@ -6,7 +6,7 @@
     "clear": "rm -rf dist/ && rm -rf bundle.js",
     "build": "npm run clear && rollup -c",
     "lint": "eslint --ext .js,.vue packages",
-    "format": "prettier --config ./.prettierrc.yaml --write 'packages/**/*.{js,vue,css,scss}'",
+    "format": "prettier --config ./.prettierrc.yaml --write './**/*.{js,vue,css,scss}'",
     "precommit": "pretty-quick --staged",
     "dev": "npm run lint && npm run format && webpack-dev-server --inline --progress --config webpack.config.js"
   },
