@@ -113,7 +113,7 @@ const clearBtn = document.querySelector('#button-clear')
 focusBind(btnOne, callbackOne, 'button-group')
 focusBind(btnTwo, callbackTwo, 'button-group')
 focusBind(btnThree, callbackThree, 'custom-button')
-focusBind(clearBtn, callbackOne)
+focusBind(clearBtn, clearCallback)
 
 function callbackOne () {
   console.log('if you click on btnOne and btnTwo will not trigger this function')
