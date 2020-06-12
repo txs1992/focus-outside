@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "./dist/",
-    // "strict": true,
+    "strict": true,
     "target": "es5",
     "module": "esNext",
     "declaration": true,
@@ -20,15 +20,12 @@
     "removeComments": true,
     "experimentalDecorators": true,
     "paths": {
-      "@yys-ui/*": [
-        "packages/*"
-      ],
-      "@examples/*": [
-        "examples/*"
-      ],
       "@packages/*": [
         "packages/*"
-      ]
+      ],
+      "@/*": [
+        "src/*"
+      ],
     },
     "typeRoots": [
       "node_modules/@types"
@@ -40,7 +37,6 @@
     "examples/**/*"
   ],
   "exclude": [
-    "packages/*/src/**/__tests__",
-    "packages/*/src/**/__mocks__"
+    "dist/**/*",
   ]
 }

@@ -1,27 +1,27 @@
-import Map from './map-shim.ts'
-const els = []
+import Map from './map-shim'
+const els: any[] = []
 const elMap = new Map()
 
-function isNotFocusable(el) {
-  return isNaN(parseInt(el.getAttribute('tabindex')))
+function isNotFocusable(el: Element) {
+  return isNaN(parseInt(el.getAttribute('tabindex') as string))
 }
 
-function setFocusable(el) {
-  el.setAttribute('tabindex', -1)
+function setFocusable(el: Element) {
+  el.setAttribute('tabindex', '-1')
 }
 
-function getNode(target) {
+function getNode(target: EventTarget) {
   return els.find((el) => el.contains(target) || el === target)
 }
 
-function addClass(el, name) {
+function addClass(el: Element, name: string) {
   const classList = el.className.split(' ')
   if (classList.indexOf(name) > -1) return
   classList.push(name)
   el.className = classList.join(' ')
 }
 
-function removeClass(el, name) {
+function removeClass(el: Element, name: string) {
   const classList = el.className.split(' ')
   const index = classList.indexOf(name)
   if (index < 0) return
@@ -29,31 +29,31 @@ function removeClass(el, name) {
   el.className = classList.join(' ')
 }
 
-function focusinHandler({ target }) {
-  const node = getNode(target)
+function focusinHandler(event: Event) {
+  const node = getNode(event.target as any)
   if (!node) return
   const { item, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!item) return
   clearTimeout(nodeList.timerId)
 }
 
-function focusoutHandler({ target }) {
-  const node = getNode(target)
+function focusoutHandler(event: Event) {
+  const node = getNode(event.target as any)
   if (!node) return
   const { item, nodeList } = findNodeMap(elMap.entries(), node) || {}
   if (!item) return
-  nodeList.timerId = setTimeout(() => item.callback(target), 10)
+  nodeList.timerId = setTimeout(() => item.callback(event.target as any), 10)
 }
 
-function findNodeMap(entries, node): any {
+function findNodeMap(entries: any[], node: Element): any {
   for (let i = 0; i < entries.length; i++) {
     const [key, nodeList] = entries[i]
-    const item = nodeList.find((item) => item.node === node)
+    const item: any = nodeList.find((item: any) => item.node === node)
     if (item) return { key, item, nodeList }
   }
 }
 
-export function bind(el, callback, key, className = 'focus-outside') {
+export function bind(el: any, callback: any, key?: string, className: string = 'focus-outside') {
   if (!key) key = callback
   callback.defaultClass = className
   if (els.indexOf(el) < 0) els.push(el)
@@ -79,8 +79,8 @@ export function bind(el, callback, key, className = 'focus-outside') {
   el.addEventListener('focusout', focusoutHandler)
 }
 
-export function unbind(target) {
-  const { item, key, nodeList } = findNodeMap(elMap.entries(), target) || {}
+export function unbind(el: any) {
+  const { item, key, nodeList } = findNodeMap(elMap.entries(), el) || {}
   if (!item) return
 
   const { node, callback, oldTabIndex } = item

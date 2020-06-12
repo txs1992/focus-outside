@@ -1,15 +1,16 @@
 {
   "name": "focus-outside",
   "version": "0.5.3",
-  "main": "lib/index.js",
+  "main": "dist/focus-outside.min.js",
   "scripts": {
     "clear": "rm -rf dist/ && rm -rf bundle.js",
-    "build": "npm run clear && node build/config.js",
+    "build": "npm run clear && node build/config.js && cp -r typings/ dist/typings",
     "lint": "eslint --ext .js,.vue packages",
     "format": "prettier --config ./.prettierrc.yaml --write './**/*.{js,vue,css,scss}'",
     "precommit": "pretty-quick --staged",
     "dev": "npm run lint && npm run format && webpack-dev-server --inline --progress --config webpack.config.js"
   },
+  "typings": "typings/focus-outside.d.ts",
   "author": "xusheng.tao <https://github.com/txs1992>",
   "license": "MIT",
   "workspaces": {
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
+    "babel-eslint": "^10.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.5.3",
     "element-ui": "^2.13.2",
