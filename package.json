@@ -13,14 +13,6 @@
   "typings": "typings/focus-outside.d.ts",
   "author": "xusheng.tao <https://github.com/txs1992>",
   "license": "MIT",
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "nohoist": [
-      "eslint"
-    ]
-  },
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "babel-eslint": "^10.1.0",
