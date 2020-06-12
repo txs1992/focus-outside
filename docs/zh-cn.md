@@ -43,8 +43,8 @@
 
 | 函数 | 说明 | 参数 |
 |:--------:|:--------:|:--------:|
-| `bind ` | 为指定元素绑定一个回调函数，当元素失去焦点时触发绑定的回调函数 | `el`，`callback `，`key`， `className`，相关参数的的描述，见下面的 `bind 函数 API` |
-| `unbind` | 取消元素绑定的函数 | `el`：元素节点，`callback`：回调 |
+| `bind ` | 为指定元素绑定一个回调函数，当元素失去焦点时触发绑定的回调函数 | `el`，`callback `，`key`， `className`，相关参数的的描述见下面的 `bind 函数 API` |
+| `unbind` | 取消元素绑定的函数 | `el`：元素节点 |
 
 ## bind 函数 API
 
@@ -53,7 +53,7 @@
 | `el` | Element | 需要被绑定的 DOM 元素 | true | - |
 | `callback` | Function  | 绑定元素触发 outside 事件时执行的处理函数 | true | - |
 | `key` | String/Function | 将需要绑定的元素或者函数进行分组，同一组元素互相点击不会触发 outside 事件，点击这一组元素之外的元素则会触发 outside 事件。| false | `callback` function |
-| `className` | String  | The class name to bind to the element | false | "focus-outside" |
+| `className` | String  | 给元素绑定的自定义类名 | false | "focus-outside" |
 
 ## 注意
 
@@ -104,7 +104,6 @@ function callback () {
 
 ```js
 import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
-
 
 const btnOne = document.querySelector('#button-one')
 const btnTwo = document.querySelector('#button-two')

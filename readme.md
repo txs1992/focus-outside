@@ -104,7 +104,6 @@ function callback () {
 ```js
 import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
 
-
 const btnOne = document.querySelector('#button-one')
 const btnTwo = document.querySelector('#button-two')
 const btnThree = document.querySelector('#button-three')
