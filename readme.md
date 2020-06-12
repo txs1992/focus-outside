@@ -35,8 +35,7 @@
 
 ## what is this
 
-> A clickOutside library, and it can solve the problem that iframe cannot trigger clickOutside.
-
+> A good clickOutside library, which solves the problem that iframe cannot trigger clickOutside, and it supports grouping binding processing. 
 ## API
 
 | function | descrption | options |
