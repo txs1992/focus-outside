@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist/",
+    "strict": true,
+    "target": "es5",
+    "module": "esNext",
+    "declaration": true,
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom"
+    ],
+    "sourceMap": false,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@packages/*": [
+        "packages/*"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+    },
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+  },
+  "include": [
+    "packages/**/*",
+    "typings/**/*",
+    "examples/**/*"
+  ],
+  "exclude": [
+    "dist/**/*",
+  ]
+}

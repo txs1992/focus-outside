@@ -41,8 +41,37 @@
 
 | function | descrption | options |
 |:--------:|:--------:|:--------:|
-| `bind `  | Bind a callback function to the specified element, triggering a callback when the element loses focus | `el`：Element Node，`callback `：Callback，`className`：The class name to bind to the element, default className = 'focus-outside' |
-| `unbind` | Clear element binding function | `el` Element Node, `callback` Callback |
+| `bind `  | Bind outside handlers to elements | `el`, `callback`, `key`, `className`, for details, see the `Bind Params` table below |
+| `unbind` | Clear element binding function | `el` Element Node |
+
+
+## Bind Params
+| parameter | type | descrption | required | default |
+|:--------:|:--------:|:--------:|:--------:|:--------:|
+| `el` | Element | Element to be bound | true | - |
+| `callback` | Function  | The processing function when the outside event is triggered | true | - |
+| `key` | String/Function | Divide elements or functions into a group of types. When the same group of elements is clicked, the outside event will not be triggered, while clicking on elements outside the same group will trigger the outside event. | false |`callback` function |
+| `className` | String  | The class name to bind to the element | false | "focus-outside" |
+
+
+## Notice
+
+When the element is bound, `focus-outside` sets the element as a focusable element, which will give it a highlight style when it gets the focus browser. If you don't want to see this style, you only need to put this element The CSS property outline is set to none. The bind function of the focsout-outside version 0.5.0 adds a className parameter, adding a class name for each bound element. The default class name is `focus-outside`, and the class name is removed from the element when the unbind function is executed.
+
+```js
+<div id="focus-ele"></div>
+
+// js
+const elm = document.querySelector('#focus-ele')
+// default classname is focus-outside
+focusBind(elm, callback, 'key', 'my-focus-name')
+
+// css
+// If you need to override all the default styles, you can put this code in the global CSS.
+.my-focus-name {
+  outline: none;
+}
+```
 
 ## Use FocusOutside
 
@@ -64,28 +93,46 @@ focusBind(elm, callback)
 function callback () {
   console.log('You clicked on the area outside the dropdown button.')
   // clear bind
-  focusUnbind(elm, callback)
+  focusUnbind(elm)
 }
 ```
 
 [View Online Example](https://jsfiddle.net/_MT_/z0dejc23/9/)
 
-#### Notice
-
-When the element is bound, `focus-outside` sets the element as a focusable element, which will give it a highlight style when it gets the focus browser. If you don't want to see this style, you only need to put this element The CSS property outline is set to none. The bind function of the focsout-outside version 0.5.0 adds a className parameter, adding a class name for each bound element. The default class name is `focus-outside`, and the class name is removed from the element when the unbind function is executed.
+#### Use of key
 
 ```js
-<div id="focus-ele"></div>
+import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
 
-// js
-const elm = document.querySelector('#focus-ele')
-// default classname is focus-outside
-focusBind(elm, callback, 'my-focus-name')
+const btnOne = document.querySelector('#button-one')
+const btnTwo = document.querySelector('#button-two')
+const btnThree = document.querySelector('#button-three')
+const clearBtn = document.querySelector('#button-clear')
 
-// css
-// If you need to override all the default styles, you can put this code in the global CSS.
-.my-focus-name {
-  outline: none;
+// Binding function and key
+focusBind(btnOne, callbackOne, 'button-group')
+focusBind(btnTwo, callbackTwo, 'button-group')
+focusBind(btnThree, callbackThree, 'custom-button')
+focusBind(clearBtn, clearCallback)
+
+function callbackOne () {
+  console.log('if you click on btnOne and btnTwo will not trigger this function')
+}
+
+function callbackTwo () {
+  console.log('if I was triggered, it means you clicked on elements other than btnOne and btnTwo')
+}
+
+function callbackThree () {
+  console.log('you clicked outside the btn-three')
+}
+
+function clearCallback() {
+  console.log('Clear all button binding functions')
+  focusUnbind(btnOne)
+  focusUnbind(btnTwo)
+  focusUnbind(btnThree)
+  focusUnbind(clearBtn)
 }
 ```
 
@@ -100,7 +147,7 @@ export default {
   },
 
   unbind (el, binding) {
-    focusUnbind(el, binding.value)
+    focusUnbind(el)
   }
 }
 
@@ -153,8 +200,8 @@ export default {
   },
 
   destoryed () {
-    focusUnbind(this.$refs.dropdown.$el, this.$refs.dropdown.hide)
-    focusUnbind(this.$refs.dropdownContent.$el, this.$refs.dropdown.hide)
+    focusUnbind(this.$refs.dropdown.$el)
+    focusUnbind(this.$refs.dropdownContent.$el)
   }
 }
 ```
@@ -189,7 +236,7 @@ class MyMenu extends React.Component {
   }
 
   componentWillUnmount () {
-    if (this.menuElm && this.props.outside) focusUnbind(this.menuElm, this.props.outside)
+    if (this.menuElm && this.props.outside) focusUnbind(this.menuElm)
   }
 }
 
@@ -225,7 +272,7 @@ class MyDropdown extends React.Component {
   }
 
   componentWillUnmount () {
-    if (this.dropdownElm) focusUnbind(this.dropdownElm, this.handleOutside)
+    if (this.dropdownElm) focusUnbind(this.dropdownElm)
   }
 
   handleOutside = () => {
@@ -252,7 +299,10 @@ ReactDOM.render(
 git clone git@github.com:txs1992/focus-outside.git
 
 2. Installation dependencies (make sure your computer has Node.js installed)
-npm install
+yarn install
+
+3. run the project
+yarn dev
 ```
 
 ## License
