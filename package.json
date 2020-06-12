@@ -1,6 +1,6 @@
 {
   "name": "focus-outside",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/focus-outside.min.js",
   "scripts": {
     "clear": "rm -rf dist/ && rm -rf bundle.js",
