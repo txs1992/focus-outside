@@ -1,5 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { bind as focusBind, unbind as focusUnbind } from '../../packages/index'
+// import { bind as focusBind, unbind as focusUnbind } from '../../dist/focus-outside'
 
 @Component({
   name: 'simple',
