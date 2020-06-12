@@ -111,9 +111,9 @@ const btnThree = document.querySelector('#button-three')
 const clearBtn = document.querySelector('#button-clear')
 
 // 绑定函数
-focusBind(btnOne, callbackOne)
-focusBind(btnTwo, callbackTwo)
-focusBind(btnThree, callbackThree)
+focusBind(btnOne, callbackOne, 'button-group')
+focusBind(btnTwo, callbackTwo, 'button-group')
+focusBind(btnThree, callbackThree, 'custom-button')
 focusBind(clearBtn, callbackOne)
 
 function callbackOne () {

@@ -109,26 +109,26 @@ const btnTwo = document.querySelector('#button-two')
 const btnThree = document.querySelector('#button-three')
 const clearBtn = document.querySelector('#button-clear')
 
-// 绑定函数
-focusBind(btnOne, callbackOne)
-focusBind(btnTwo, callbackTwo)
-focusBind(btnThree, callbackThree)
+// Binding function and key
+focusBind(btnOne, callbackOne, 'button-group')
+focusBind(btnTwo, callbackTwo, 'button-group')
+focusBind(btnThree, callbackThree, 'custom-button')
 focusBind(clearBtn, callbackOne)
 
 function callbackOne () {
-  console.log('如果你点击的是 btnOne 与 btnTwo 将不会触发这个函数')
+  console.log('if you click on btnOne and btnTwo will not trigger this function')
 }
 
 function callbackTwo () {
-  console.log('如果触发了，说明你点击了 btnOne 与 btnTwo 之外的元素')
+  console.log('if I was triggered, it means you clicked on elements other than btnOne and btnTwo')
 }
 
 function callbackThree () {
-  console.log('你点击了 btn-three 之外的区域')
+  console.log('you clicked outside the btn-three')
 }
 
 function clearCallback() {
-  console.log('清除所有按钮的绑定函数')
+  console.log('Clear all button binding functions')
   focusUnbind(btnOne)
   focusUnbind(btnTwo)
   focusUnbind(btnThree)
