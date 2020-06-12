@@ -41,17 +41,17 @@
 
 | function | descrption | options |
 |:--------:|:--------:|:--------:|
-| `bind `  | Bind outside handlers to elements | `el`, `callback`, `key`, `className`, ror details, see the `Bind Params` table below |
+| `bind `  | Bind outside handlers to elements | `el`, `callback`, `key`, `className`, for details, see the `Bind Params` table below |
 | `unbind` | Clear element binding function | `el` Element Node |
 
 
 ## Bind Params
-| parameter | type | descrption | default |
-|:--------:|:--------:|:--------:|:--------:|
-| `el` | Element | Element to be bound | - |
-| `callback` | Function  | The processing function when the outside event is triggered | - |
-| `key` | String/Function | Divide elements or functions into a group of types. When the same group of elements is clicked, the outside event will not be triggered, while clicking on elements outside the same group will trigger the outside event. | `callback` function |
-| `className` | String  | The class name to bind to the element | "focus-outside" |
+| parameter | type | descrption | required | default |
+|:--------:|:--------:|:--------:|:--------:|:--------:|
+| `el` | Element | Element to be bound | true | - |
+| `callback` | Function  | The processing function when the outside event is triggered | true | - |
+| `key` | String/Function | Divide elements or functions into a group of types. When the same group of elements is clicked, the outside event will not be triggered, while clicking on elements outside the same group will trigger the outside event. | false |`callback` function |
+| `className` | String  | The class name to bind to the element | false | "focus-outside" |
 
 
 ## Notice
@@ -98,6 +98,44 @@ function callback () {
 ```
 
 [View Online Example](https://jsfiddle.net/_MT_/z0dejc23/9/)
+
+#### Use of key
+
+```js
+import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
+
+
+const btnOne = document.querySelector('#button-one')
+const btnTwo = document.querySelector('#button-two')
+const btnThree = document.querySelector('#button-three')
+const clearBtn = document.querySelector('#button-clear')
+
+// 绑定函数
+focusBind(btnOne, callbackOne)
+focusBind(btnTwo, callbackTwo)
+focusBind(btnThree, callbackThree)
+focusBind(clearBtn, callbackOne)
+
+function callbackOne () {
+  console.log('如果你点击的是 btnOne 与 btnTwo 将不会触发这个函数')
+}
+
+function callbackTwo () {
+  console.log('如果触发了，说明你点击了 btnOne 与 btnTwo 之外的元素')
+}
+
+function callbackThree () {
+  console.log('你点击了 btn-three 之外的区域')
+}
+
+function clearCallback() {
+  console.log('清除所有按钮的绑定函数')
+  focusUnbind(btnOne)
+  focusUnbind(btnTwo)
+  focusUnbind(btnThree)
+  focusUnbind(clearBtn)
+}
+```
 
 #### Used in Vue
 

@@ -43,8 +43,36 @@
 
 | 函数 | 说明 | 参数 |
 |:--------:|:--------:|:--------:|
-| `bind ` | 为指定元素绑定一个回调函数，当元素失去焦点时触发回调 | `el`：元素节点，`callback `：回调，`className`：给元素绑定的类名，默认 className = 'focus-outside' |
+| `bind ` | 为指定元素绑定一个回调函数，当元素失去焦点时触发绑定的回调函数 | `el`，`callback `，`key`， `className`，相关参数的的描述，见下面的 `bind 函数 API` |
 | `unbind` | 取消元素绑定的函数 | `el`：元素节点，`callback`：回调 |
+
+## bind 函数 API
+
+| 参数 | 类型 | 说明 | 必选 | 默认值 |
+|:--------:|:--------:|:--------:|:--------:|:--------:|
+| `el` | Element | 需要被绑定的 DOM 元素 | true | - |
+| `callback` | Function  | 绑定元素触发 outside 事件时执行的处理函数 | true | - |
+| `key` | String/Function | 将需要绑定的元素或者函数进行分组，同一组元素互相点击不会触发 outside 事件，点击这一组元素之外的元素则会触发 outside 事件。| false | `callback` function |
+| `className` | String  | The class name to bind to the element | false | "focus-outside" |
+
+## 注意
+
+前面说到过元素变成 focusable 后，当它获取焦点浏览器会给它加上高亮样式，如果你不希望看到和这个样式，你只需要将这个元素的 CSS 属性 outline 设置为 none。focsout-outside 0.5.0 版本的 bind 函数新增 className 参数，为每个绑定的元素添加类名，默认类名是 focus-outside，执行 unbind 函数时候会将这个类名从元素上删除 。
+
+```js
+<div id="focus-ele"></div>
+
+// js
+const elm = document.querySelector('#focus-ele')
+// 默认类名是 focus-outside
+focusBind(elm, callback, 'key', 'my-focus-name')
+
+// css
+// 如果你需要覆盖所有的默认样式，可以在这段代码放在全局 CSS 中。
+.my-focus-name {
+  outline: none;
+}
+```
 
 ## 使用 FocusOutside
 
@@ -66,28 +94,47 @@ focusBind(elm, callback)
 function callback () {
   console.log('您点击了 dropdown 按钮外面的区域')
   // 清除绑定
-  focusUnbind(elm, callback)
+  focusUnbind(elm)
 }
 ```
 
 [查看在线示例](https://jsfiddle.net/_MT_/z0dejc23/9/)
 
-#### 注意
-
-前面说到过元素变成 focusable 后，当它获取焦点浏览器会给它加上高亮样式，如果你不希望看到和这个样式，你只需要将这个元素的 CSS 属性 outline 设置为 none。focsout-outside 0.5.0 版本的 bind 函数新增 className 参数，为每个绑定的元素添加类名，默认类名是 focus-outside，执行 unbind 函数时候会将这个类名从元素上删除 。
+#### key 的使用
 
 ```js
-<div id="focus-ele"></div>
+import { bind: focusBind, unbind: focusUnbind } from 'focus-outside'
 
-// js
-const elm = document.querySelector('#focus-ele')
-// 默认类名是 focus-outside
-focusBind(elm, callback, 'my-focus-name')
 
-// css
-// 如果你需要覆盖所有的默认样式，可以在这段代码放在全局 CSS 中。
-.my-focus-name {
-  outline: none;
+const btnOne = document.querySelector('#button-one')
+const btnTwo = document.querySelector('#button-two')
+const btnThree = document.querySelector('#button-three')
+const clearBtn = document.querySelector('#button-clear')
+
+// 绑定函数
+focusBind(btnOne, callbackOne)
+focusBind(btnTwo, callbackTwo)
+focusBind(btnThree, callbackThree)
+focusBind(clearBtn, callbackOne)
+
+function callbackOne () {
+  console.log('如果你点击的是 btnOne 与 btnTwo 将不会触发这个函数')
+}
+
+function callbackTwo () {
+  console.log('如果触发了，说明你点击了 btnOne 与 btnTwo 之外的元素')
+}
+
+function callbackThree () {
+  console.log('你点击了 btn-three 之外的区域')
+}
+
+function clearCallback() {
+  console.log('清除所有按钮的绑定函数')
+  focusUnbind(btnOne)
+  focusUnbind(btnTwo)
+  focusUnbind(btnThree)
+  focusUnbind(clearBtn)
 }
 ```
 
@@ -102,7 +149,7 @@ export default {
   },
 
   unbind (el, binding) {
-    focusUnbind(el, binding.value)
+    focusUnbind(el)
   }
 }
 
@@ -155,8 +202,8 @@ export default {
   },
 
   destoryed () {
-    focusUnbind(this.$refs.dropdown.$el, this.$refs.dropdown.hide)
-    focusUnbind(this.$refs.dropdownContent.$el, this.$refs.dropdown.hide)
+    focusUnbind(this.$refs.dropdown.$el)
+    focusUnbind(this.$refs.dropdownContent.$el)
   }
 }
 ```
@@ -187,11 +234,11 @@ class MyMenu extends React.Component {
 
   componentDidMount () {
     this.menuElm = ReactDOM.findDOMNode(this.refs.menu)
-    if (this.menuElm && this.props.outside) focusBind(this.menuElm, this.props.outside)
+    if (this.menuElm && this.props.outside) focusBind(this.menuElm)
   }
 
   componentWillUnmount () {
-    if (this.menuElm && this.props.outside) focusUnbind(this.menuElm, this.props.outside)
+    if (this.menuElm && this.props.outside) focusUnbind(this.menuElm)
   }
 }
 
@@ -227,7 +274,7 @@ class MyDropdown extends React.Component {
   }
 
   componentWillUnmount () {
-    if (this.dropdownElm) focusUnbind(this.dropdownElm, this.handleOutside)
+    if (this.dropdownElm) focusUnbind(this.dropdownElm)
   }
 
   handleOutside = () => {
